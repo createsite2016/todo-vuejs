@@ -5,6 +5,7 @@
         :key="todo.id"
         :todo="todo"
         @toggle-to-do="toggleToDo"
+        @remove-to-do="removeToDo"
     />
   </ul>
 </template>
@@ -37,6 +38,9 @@ export default defineComponent ({
       if (targetTodo) {
         targetTodo.completed = !targetTodo.completed
       }
+    },
+    removeToDo(id: number){
+      this.todos = this.todos.filter((todo:Todo) => todo.id !== id)
     }
   }
 })

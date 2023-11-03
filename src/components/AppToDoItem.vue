@@ -4,7 +4,7 @@
       <i class="bi bi-check2"></i>
     </div>
     <span class="todo-item__text">{{ todo.text }}</span>
-    <button class="todo-item__remove-button">
+    <button class="todo-item__remove-button" @click.stop="removeToDo">
       <i class="bi bi-trash3"></i>
     </button>
   </li>
@@ -23,10 +23,14 @@ export default defineComponent ({
   methods: {
     toggleToDo() {
       this.$emit('toggleToDo', this.todo.id)
+    },
+    removeToDo() {
+      this.$emit('removeToDo', this.todo.id)
     }
   },
   emits: {
-    toggleToDo: (id: number) => Number.isInteger(id)
+    toggleToDo: (id: number) => Number.isInteger(id),
+    removeToDo: (id: number) => Number.isInteger(id),
   }
 })
 </script>
