@@ -12,36 +12,29 @@
 
 <script lang="ts">
 import AppToDoItem from "@/components/AppToDoItem.vue";
-import {Todo} from "@/types/Todo";
-import {defineComponent} from 'vue';
-
-interface State {
-  todos: Todo[]
-}
+import { Todo } from "@/types/Todo";
+import {defineComponent, PropType} from 'vue';
 
 export default defineComponent ({
   components: {
     AppToDoItem
   },
-  data():State {
-    return {
-      todos: [
-        {id: 0, text: 'сделать кофе', completed: true},
-        {id: 1, text: 'выпить кофе', completed: false},
-        {id: 2, text: 'спасти мир', completed: false},
-      ]
+  props: {
+    todos: {
+      type: Array as PropType<Todo[]>
     }
   },
   methods:{
     toggleToDo(id: number){
-      const targetTodo = this.todos.find((todo: Todo) => todo.id === id)
-      if (targetTodo) {
-        targetTodo.completed = !targetTodo.completed
-      }
+      this.$emit('toggleToDo', id)
     },
     removeToDo(id: number){
-      this.todos = this.todos.filter((todo:Todo) => todo.id !== id)
+      this.$emit('removeToDo', id)
     }
+  },
+  emits: {
+    toggleToDo: (id: number) => Number.isInteger(id),
+    removeToDo: (id: number) => Number.isInteger(id),
   }
 })
 </script>
