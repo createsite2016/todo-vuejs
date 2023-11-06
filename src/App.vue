@@ -4,7 +4,11 @@
   <AppFilters :active-filter="activeFilter" @set-filter="setFilter"/>
 
   <main class="app-main">
-    <AppToDoList :todos="todos" @toggle-to-do="toggleToDo" @remove-to-do="removeToDo"/>
+    <AppToDoList
+        :todos="filteredTodos"
+        @toggle-to-do="toggleToDo"
+        @remove-to-do="removeToDo"
+    />
     <AppAddToDo @add-to-do="addToDo"/>
   </main>
 
@@ -43,6 +47,19 @@ export default defineComponent ({
         {id: 2, text: 'спасти мир', completed: false},
       ],
       activeFilter: 'All'
+    }
+  },
+  computed: {
+    filteredTodos(): Todo[] {
+      switch (this.activeFilter) {
+        case 'Active':
+          return this.todos.filter(todo => !todo.completed)
+        case 'Done':
+          return this.todos.filter(todo => todo.completed)
+        case 'All':
+        default:
+          return this.todos
+      }
     }
   },
   methods:{
